@@ -34,7 +34,7 @@ async def get_products_by_category(
     
     products = [
         {
-            "product_id": int(point.payload.get("product_id",0)),
+            "product_id": str(point.id),
             "link": point.payload.get("Link"),
             "name": point.payload.get("Name"),
             "description": point.payload.get("Description"),

@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     QDRANT_COLLECTION_SHOPGENIE: str = os.getenv("QDRANT_COLLECTION_SHOPGENIE")
     BASE_URL: str = os.getenv("BASE_URL")
     COMPANY_NAME: str = os.getenv("COMPANY_NAME")
+    ROBOFLOW_API_KEY: str = os.getenv("ROBOFLOW_API_KEY")
 
 
 settings = Settings()

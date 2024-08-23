@@ -9,7 +9,7 @@ class CategoryRequestSchema(BaseModel):
     offset: Optional[UUID] = Field(None, description="Offset for pagination (optional, UUID)")
 
 class ProductSchema(BaseModel):
-    product_id: int
+    product_id: str
     link: str
     name: str
     description: str

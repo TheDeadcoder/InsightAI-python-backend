@@ -47,7 +47,6 @@ CATEGORY_MAPPING = {
         "daily life": ['girls frocks', 'girls dungarees', 'girls frocks & dresses', 'girls leggings & jeggings'],
         "winter-wear": ['girls sweaters', 'girls shawls', 'girls sweaters-jackets']
     }
-    # Add more categories as needed
 }
 
 #################################################################################################
@@ -60,7 +59,9 @@ async def get_product_by_id(product_id: uuid.UUID) -> ProductSchema:
         raise HTTPException(status_code=404, detail="Product not found")
     return ProductSchema(**product)
 
-
+#################################################################################################
+#   GET a category-based product
+#################################################################################################
 @router.post("/category", response_model=CategoryResponseSchema)
 async def get_category_products(request: CategoryRequestSchema):
     category = request.category

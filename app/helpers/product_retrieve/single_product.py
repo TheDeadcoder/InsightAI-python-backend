@@ -17,7 +17,7 @@ async def retrieve_single_product_from_qdrant(product_id: uuid.UUID) -> dict:
     
     # Normalize the keys to match the expected field names in the Product model
     normalized_product_data = {
-        'product_id': int(product_data.get('product_id', 0)),
+        'product_id': str(item.id),
         'link': product_data.get('Link', ''),
         'name': product_data.get('Name', ''),
         'description': product_data.get('Description', ''),
