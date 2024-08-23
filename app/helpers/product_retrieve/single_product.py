@@ -21,7 +21,7 @@ async def retrieve_single_product_from_qdrant(product_id: uuid.UUID) -> dict:
         'link': product_data.get('Link', ''),
         'name': product_data.get('Name', ''),
         'description': product_data.get('Description', ''),
-        'price': float(product_data.get('Price', '0').replace('Tk ', '').replace(',', '')),
+        'price': product_data.get('Price', '0'),
         'specifications': product_data.get('Specifications', ''),
         'image_links': product_data.get('Image_links', []),
         'gender': product_data.get('Gender', ''),
