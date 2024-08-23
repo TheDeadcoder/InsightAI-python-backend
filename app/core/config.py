@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     BASE_URL: str = os.getenv("BASE_URL")
     COMPANY_NAME: str = os.getenv("COMPANY_NAME")
     ROBOFLOW_API_KEY: str = os.getenv("ROBOFLOW_API_KEY")
+    QDRANT_HOST_FILE: str = os.getenv("QDRANT_HOST_FILE")
+    QDRANT_API_KEY_FILE: str = os.getenv("QDRANT_API_KEY_FILE")
+
 
 
 settings = Settings()
