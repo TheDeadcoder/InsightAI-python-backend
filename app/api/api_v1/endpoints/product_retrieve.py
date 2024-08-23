@@ -1,8 +1,8 @@
 from typing import List
 import uuid
 from fastapi import APIRouter, Depends, HTTPException
-from app.schemas.product import ProductSchema, CategoryRequestSchema, CategoryResponseSchema
-from app.helpers.product_retrieve.single_product import retrieve_single_product_from_qdrant
+from app.schemas.product import ProductSchema, CategoryRequestSchema, CategoryResponseSchema, ProductRetrieveResponseSchema
+from app.helpers.product_retrieve.single_product import retrieve_single_product_from_qdrant, retrieve_similar_products
 from app.helpers.product_retrieve.category import get_products_by_category
 router = APIRouter()
 
@@ -52,12 +52,18 @@ CATEGORY_MAPPING = {
 #################################################################################################
 #   GET a particular product
 #################################################################################################
-@router.get("/{product_id}", response_model=ProductSchema)
-async def get_product_by_id(product_id: uuid.UUID) -> ProductSchema:
+@router.get("/{product_id}", response_model=ProductRetrieveResponseSchema)
+async def get_product_by_id(product_id: uuid.UUID) -> ProductRetrieveResponseSchema:
     product = await retrieve_single_product_from_qdrant(product_id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    return ProductSchema(**product)
+    
+    similar_products = await retrieve_similar_products(product_id)
+    
+    return ProductRetrieveResponseSchema(
+        product=ProductSchema(**product),
+        similar_products=[ProductSchema(**p) for p in similar_products]
+    )
 
 #################################################################################################
 #   GET a category-based product

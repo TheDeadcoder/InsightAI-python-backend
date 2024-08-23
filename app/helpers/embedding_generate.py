@@ -15,7 +15,7 @@ def create_embedding(txt):
 def get_image_embeddings(image_link: str):
     try:
         print(image_link)
-        res = roboflow_client.get_clip_image_embeddings(inference_input=image_link, clip_version="ViT-B-32")
+        res = roboflow_client.get_clip_image_embeddings(inference_input=image_link, clip_version="ViT-L-14")
         embeddings = res["embeddings"][0]
         return embeddings
     except Exception as e:

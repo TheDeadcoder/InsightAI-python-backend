@@ -20,6 +20,10 @@ class ProductSchema(BaseModel):
     category: str
     company: str
 
+class ProductRetrieveResponseSchema(BaseModel):
+    product: ProductSchema
+    similar_products: List[ProductSchema]
+
 class CategoryResponseSchema(BaseModel):
     products: List[ProductSchema]
     next_offset: str
