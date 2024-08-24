@@ -31,7 +31,7 @@ async def retrieve_single_product_from_qdrant(product_id: uuid.UUID) -> dict:
     
     return normalized_product_data
 
-async def retrieve_similar_products(product_id: uuid.UUID, limit: int = 3) -> List[dict]:
+async def retrieve_similar_products(product_id: uuid.UUID, limit: int = 5) -> List[dict]:
     recommendations = qdrantClient_ShopGenie.recommend(
         collection_name=settings.QDRANT_COLLECTION_SHOPGENIE,
         positive=[str(product_id)],

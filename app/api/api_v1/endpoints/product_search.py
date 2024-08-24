@@ -30,7 +30,7 @@ async def submit_form(image: ImageLink):
 #   search with Text only
 #################################################################################################
 
-@router.get("/text-search", response_model=ProductListResponse)
-async def search_products(query: str):
-    products = get_search_products_from_text(query)
+@router.post("/text-search", response_model=ProductListResponse)
+async def search_products(query: ProductQuerySchema):
+    products = get_search_products_from_text(query.query)
     return ProductListResponse(products=products)
