@@ -2,9 +2,11 @@ from typing import List
 import uuid
 from fastapi import APIRouter, Depends, HTTPException
 from app.helpers.embedding_generate import get_image_embeddings
+from app.helpers.product_fetch.text import get_search_products_from_text
 router = APIRouter()
 from pydantic import BaseModel
-
+from app.schemas.text_search import ProductQuerySchema, ProductListResponse
+from app.schemas.text_search import ProductSchema
 class ImageLink(BaseModel):
     image_link: str
 
@@ -22,3 +24,13 @@ async def submit_form(image: ImageLink):
     return {
         "image_embeddings": embeddings
     }
+
+
+#################################################################################################
+#   search with Text only
+#################################################################################################
+
+@router.get("/text-search", response_model=ProductListResponse)
+async def search_products(query: str):
+    products = get_search_products_from_text(query)
+    return ProductListResponse(products=products)

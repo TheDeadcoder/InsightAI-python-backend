@@ -4,7 +4,7 @@ from uuid import UUID
 # from app.schemas.files import File
 
 from app.core.qdrant import qdrantClient_File
-from app.helpers.embedding_generate import create_embedding
+from app.helpers.embedding_generate import get_text_embedding
 from qdrant_client.http.models import VectorParams, Distance
 
 #################################################################################################
