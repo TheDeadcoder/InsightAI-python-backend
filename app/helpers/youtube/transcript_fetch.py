@@ -2,6 +2,10 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from datetime import datetime
 import os
 from app.core.supabase import supabase
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 bucket_name = "transcripts"
 
 
@@ -30,7 +34,9 @@ def upload_to_supabase(file_path, bucket_name):
 
 def get_and_upload_transcript(video_id: str):
     try:
+        logging.info(f"Attempting to get transcript for video ID: {video_id}")
         transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        logging.info("Transcript successfully retrieved")
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"transcript_{timestamp}.txt"
