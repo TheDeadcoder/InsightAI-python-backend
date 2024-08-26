@@ -28,6 +28,18 @@ def make_collection(user_id: UUID, collection_name: str):
             return f"Collection named: {full_collection_name} has been successfully created"
         else:
             raise HTTPException(status_code=500, detail="Error occurred making the collection")
+        
+#################################################################################################
+#   Helper function to Delete a collection
+#   input: collection name, output: integer
+#################################################################################################
+def delete_collection(user_id: UUID, collection_name: str):
+    full_collection_name = f"{user_id}_{collection_name}"
+    try:
+        qdrantClient_File.delete_collection(collection_name=full_collection_name)
+        return f"Collection {full_collection_name} has been deleted successfully"
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error occurred while deleting the collection")
 
 
 #################################################################################################
