@@ -27,3 +27,9 @@ class ProductRetrieveResponseSchema(BaseModel):
 class CategoryResponseSchema(BaseModel):
     products: List[ProductSchema]
     next_offset: str
+
+class ProductRetrieveMultipleRequestSchema(BaseModel):
+    product_ids: List[str] 
+
+class ProductRetrieveMultipleResponseSchema(BaseModel):
+    products: List[ProductSchema]

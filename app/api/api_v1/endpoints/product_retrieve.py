@@ -1,7 +1,8 @@
 from typing import List
 import uuid
 from fastapi import APIRouter, Depends, HTTPException
-from app.schemas.product import ProductSchema, CategoryRequestSchema, CategoryResponseSchema, ProductRetrieveResponseSchema
+from app.helpers.product_retrieve.multiple_product import retrieve_multiple_products_from_qdrant
+from app.schemas.product import ProductSchema, CategoryRequestSchema, CategoryResponseSchema, ProductRetrieveResponseSchema, ProductRetrieveMultipleRequestSchema, ProductRetrieveMultipleResponseSchema
 from app.helpers.product_retrieve.single_product import retrieve_single_product_from_qdrant, retrieve_similar_products
 from app.helpers.product_retrieve.category import get_products_by_category
 router = APIRouter()
@@ -92,4 +93,20 @@ async def get_category_products(request: CategoryRequestSchema):
     return CategoryResponseSchema(
         products=products_data["products"],
         next_offset=products_data["next_offset"]
+    )
+
+
+#################################################################################################
+#   GET a List of products
+#################################################################################################
+@router.post("/retrieve-multiple", response_model=ProductRetrieveMultipleResponseSchema)
+async def get_multiple_products_by_ids(request: ProductRetrieveMultipleRequestSchema) -> ProductRetrieveMultipleResponseSchema:
+    product_ids = request.product_ids
+    products = await retrieve_multiple_products_from_qdrant(product_ids)
+    
+    if not products:
+        raise HTTPException(status_code=404, detail="No products found")
+    
+    return ProductRetrieveMultipleResponseSchema(
+        products=[ProductSchema(**product) for product in products]
     )
