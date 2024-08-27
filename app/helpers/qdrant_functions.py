@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 from qdrant_client import models
+import uuid
 from uuid import UUID
 # from app.schemas.files import File
 
@@ -11,21 +12,25 @@ from qdrant_client.http.models import VectorParams, Distance
 #   Helper function to make a collection
 #   input: collection name, output: integer
 #################################################################################################
+
 def make_collection(user_id: UUID, collection_name: str):
     full_collection_name = f"{user_id}_{collection_name}"
     try:
         qdrantClient_File.get_collection(full_collection_name)
-        return f"Collection {full_collection_name} already exists"
+        return "Collection Already exists"
     except Exception as e:
         if "Not found" in str(e):
             qdrantClient_File.create_collection(
                 full_collection_name,
-                vectors_config=models.VectorParams(
-                    size=3072,
-                    distance=models.Distance.COSINE
-                ),
+                vectors_config={
+                    "content": VectorParams(
+                        size=3072,
+                        distance=Distance.COSINE
+                    ),
+                },
             )
-            return f"Collection named: {full_collection_name} has been successfully created"
+            rt_str = "Collection named:" + full_collection_name + "has been successfully created"
+            return rt_str
         else:
             raise HTTPException(status_code=500, detail="Error occurred making the collection")
         
@@ -55,37 +60,30 @@ def vector_point_count(collection_name:str):
 #   Helper function to upload into qdrant cloud
 #   input: modular file, page_no, semantic chunks, summaries and output: nothing
 #################################################################################################
-# def upload_to_qdrant(file_id: str, file_url:str, file_name:str, page_no:str, semantic_chunks, summaries, collection_name:str):
-#     index = vector_point_count(collection_name)
-#     summary_index = 0
+def upload_to_qdrant(file_id: str, file_url:str, page_no:str, semantic_chunk:str, summary:str, collection_name:str):
 
-#     for semantic_chunk in semantic_chunks:
-#         # Create payload from File object fields
-#         payload = {
-#             "file_id": file_id,
-#             "content": semantic_chunk.page_content,
-#             "file_url": file_url,
-#             "file_name": file_name,
-#             "page_no": page_no
-#         }
+    payload = {
+            "file_id": file_id,
+            "content": semantic_chunk,
+            "file_url": file_url,
+            "page_no": page_no
+    }
 
-#         str_to_embed = summaries[summary_index] + "\n" + semantic_chunk.page_content
-#         content_embedding = create_embedding(str_to_embed)
-
-#         qdrantClient_File.upsert(
-#             collection_name,
-#             points=[
-#                 {
-#                     "id": index,
-#                     "vector": {
-#                         "content": content_embedding
-#                     },
-#                     "payload": payload
-#                 }
-#             ]
-#         )
-#         index += 1
-#         summary_index += 1
+    str_to_embed = summary + semantic_chunk
+    content_embedding = get_text_embedding(str_to_embed)
+    document_id = str(uuid.uuid4())
+    qdrantClient_File.upsert(
+            collection_name,
+            points=[
+                {
+                    "id": document_id,
+                    "vector": {
+                        "content": content_embedding
+                    },
+                    "payload": payload
+                }
+            ]
+    )
 
 # #################################################################################################
 # #   Helper function to Get all the vector-point IDs for a particular UUID of a file
@@ -126,26 +124,26 @@ def vector_point_count(collection_name:str):
 # #   Helper function to DELETE all the vector-point IDs for a particular UUID of a file
 # #   input: UUID and output: array of points
 # #################################################################################################
-# def delete_points_by_uuid(collection_name, uuid):
-#     try:
-#         qdrantClient_File.delete(
-#             collection_name=collection_name,
-#             points_selector=models.FilterSelector(
-#                 filter=models.Filter(
-#                     must=[
-#                         models.FieldCondition(
-#                             key="file_id",
-#                             match=models.MatchValue(value=uuid),
-#                         ),
-#                     ],
-#                 )
-#             ),
-#         )
+def delete_points_by_uuid(collection_name, uuid):
+    try:
+        qdrantClient_File.delete(
+            collection_name=collection_name,
+            points_selector=models.FilterSelector(
+                filter=models.Filter(
+                    must=[
+                        models.FieldCondition(
+                            key="file_id",
+                            match=models.MatchValue(value=uuid),
+                        ),
+                    ],
+                )
+            ),
+        )
 
-#         return True
+        return True
   
-#     except Exception as e:
-#          raise HTTPException(status_code=500, detail="Error occurred while deleting from vectorDB")
+    except Exception as e:
+         raise HTTPException(status_code=500, detail="Error occurred while deleting from vectorDB")
     
 # #################################################################################################
 # #   Helper function to SEARCH in a collection with given query
