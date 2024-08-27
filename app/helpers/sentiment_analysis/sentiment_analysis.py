@@ -27,15 +27,3 @@ def analyze_sentiment(text: str) -> SentimentAnalysis:
         sentiment=sentiment,
         confidence=confidence
     )
-
-def get_ticket_response_pydantic(query: str):
-    completion = client.beta.chat.completions.parse(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": query},
-        ],
-        response_format=TicketResolution,
-    )
-
-    return completion.choices[0].message.parsed

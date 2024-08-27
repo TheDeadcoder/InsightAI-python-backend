@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.api_v1.endpoints import product_retrieve, product_search, collection_create, sentiment_analysis, url_content,youtube_content, fileprocess
+from app.api.api_v1.endpoints import product_retrieve, product_search, collection_create, sentiment_analysis, url_content,youtube_content, fileprocess,mcq_quiz
 
 api_router_v1 = APIRouter()
 
@@ -10,4 +10,4 @@ api_router_v1.include_router(sentiment_analysis.router, prefix="/sentiment_analy
 api_router_v1.include_router(url_content.router, prefix="/url-content", tags=["url-content"])
 api_router_v1.include_router(youtube_content.router, prefix="/youtube-content", tags=["youtube-content"])
 api_router_v1.include_router(fileprocess.router, prefix="/process-file", tags=["process-file"])
-# api_router_v1.include_router(chats.router, prefix="/chats", tags=["chats"])
+api_router_v1.include_router(mcq_quiz.router, prefix="/generate-quiz", tags=["generate-quiz"])

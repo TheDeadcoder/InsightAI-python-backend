@@ -167,3 +167,50 @@ def delete_points_by_uuid(collection_name, uuid):
 #         raise http_exc
 #     except Exception as e:
 #         raise HTTPException(status_code=500, detail=f"Error occurred while searching in vectorDB {str(e)}")
+
+
+
+# file_id: str
+#     collection_name: str
+#     file_id: str
+
+# #################################################################################################
+# #   Helper to return all the points in a particular file
+# #################################################################################################
+def file_fetch(collection_name:str, collection_id: str, file_id:str):
+    offset = None
+    all_points = []
+    full_collection_name = f"{collection_id}_{collection_name}"
+    
+    while True:
+        result = qdrantClient_File.scroll(
+            collection_name=full_collection_name,
+            scroll_filter=models.Filter(
+                must=[
+                    models.FieldCondition(key="file_id", match=models.MatchValue(value=file_id)),
+                ]
+            ),
+            limit=20,  
+            with_payload=True,
+            with_vectors=False,
+            offset=offset
+        )
+        
+        points, next_offset = result
+        all_points.extend(points)
+        
+        if next_offset is None:
+            break
+        
+        offset = next_offset
+    
+    sorted_points = sorted(all_points, key=lambda point: point.payload.get('page_no', 0))
+    
+    # Concatenating content with page numbers
+    concatenated_content = ""
+    for point in sorted_points:
+        page_no = point.payload.get('page_no', "Unknown Page")
+        content = point.payload.get('content', "")
+        concatenated_content += f"Page {page_no}:\n{content}\n\n"
+    
+    return concatenated_content
