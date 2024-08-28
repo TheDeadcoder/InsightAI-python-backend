@@ -13,7 +13,7 @@ See https://render.com/docs/deploy-fastapi or follow the steps below:
 5. Specify the following as the Start Command.
 
     ```shell
-    uvicorn main:app --host 0.0.0.0 --port $PORT
+    uvicorn app.main:app --host 0.0.0.0 --port $PORT
     ```
 
 6. Click Create Web Service.
