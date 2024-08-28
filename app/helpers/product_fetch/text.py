@@ -17,7 +17,7 @@ def get_search_products_from_text(query: str) -> List[ProductSchema]:
                 "name": "summary",
                 "vector": embedding
             },
-            limit=10,
+            limit=15,
             with_payload=True,
             with_vectors=False
         )
