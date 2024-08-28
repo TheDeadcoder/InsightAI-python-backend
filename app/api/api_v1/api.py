@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.api_v1.endpoints import product_retrieve, product_search, collection_create, sentiment_analysis, url_content,youtube_content, fileprocess,mcq_quiz,flashcard, note_take
+from app.api.api_v1.endpoints import product_retrieve, product_search, collection_create, sentiment_analysis, url_content,youtube_content, fileprocess,mcq_quiz,flashcard, note_take,chats
 
 api_router_v1 = APIRouter()
 
@@ -13,3 +13,4 @@ api_router_v1.include_router(fileprocess.router, prefix="/process-file", tags=["
 api_router_v1.include_router(mcq_quiz.router, prefix="/generate-quiz", tags=["generate-quiz"])
 api_router_v1.include_router(flashcard.router, prefix="/flashcard", tags=["flashcard"])
 api_router_v1.include_router(note_take.router, prefix="/note_take", tags=["note_take"])
+api_router_v1.include_router(chats.router, prefix="/chats", tags=["chats"])

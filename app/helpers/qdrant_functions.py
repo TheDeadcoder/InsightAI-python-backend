@@ -214,3 +214,52 @@ def file_fetch(collection_name:str, collection_id: str, file_id:str):
         concatenated_content += f"Page {page_no}:\n{content}\n\n"
     
     return concatenated_content
+
+
+def search_in_qdrant_file_basis(collection_name:str, query:str, limit:int, file_id: str):
+    try:
+        embedding = get_text_embedding(query)
+
+        filter_conditions = {
+            "must": [
+                {
+                    "key": "file_id",
+                    "match": {"value": file_id}
+                }
+            ]
+        }
+
+        results = qdrantClient_File.search(
+            collection_name=collection_name,
+            query_vector=("content", embedding),
+            limit=limit,
+            with_payload=True,
+            with_vectors=False,
+            query_filter=filter_conditions  
+        )
+
+        return results
+
+    except HTTPException as http_exc:
+        raise http_exc
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error occurred while searching in vectorDB: {str(e)}")
+    
+def search_in_qdrant_collection_basis(collection_name:str, query:str, limit:int):
+    try:
+        embedding = get_text_embedding(query)
+
+        results = qdrantClient_File.search(
+            collection_name=collection_name,
+            query_vector=("content", embedding),
+            limit=limit,
+            with_payload=True,
+            with_vectors=False
+        )
+
+        return results
+
+    except HTTPException as http_exc:
+        raise http_exc
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error occurred while searching in vectorDB: {str(e)}")
