@@ -37,6 +37,7 @@ class Settings(BaseSettings):
     LLAMACLOUD_API_18: str = os.getenv("LLAMACLOUD_API_18")
     LLAMACLOUD_API_19: str = os.getenv("LLAMACLOUD_API_19")
     LLAMACLOUD_API_20: str = os.getenv("LLAMACLOUD_API_20")
+    SERPER_API_KEY: str = os.getenv("SERPER_API_KEY")
 
 
 
