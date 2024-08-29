@@ -1,27 +1,88 @@
-# Deploy FastAPI on Render
+# InsightAI Backend
 
-Use this repo as a template to deploy a Python [FastAPI](https://fastapi.tiangolo.com) service on Render.
+![InsightAI Logo](https://dxpcgmtdvyvcxbaffqmt.supabase.co/storage/v1/object/public/demo/insightAI%20logo%20(2).png)
 
-See https://render.com/docs/deploy-fastapi or follow the steps below:
+## Overview
 
-## Manual Steps
+Welcome to the backend of **InsightAI**, an application designed to revolutionize your banking experience. This backend is built using FastAPI, providing a robust and efficient structure for our application.
 
-1. You may use this repository directly or [create your own repository from this template](https://github.com/render-examples/fastapi/generate) if you'd like to customize the code.
-2. Create a new Web Service on Render.
-3. Specify the URL to your new repository or this repository.
-4. Render will automatically detect that you are deploying a Python service and use `pip` to download the dependencies.
-5. Specify the following as the Start Command.
+## Technologies Used
 
-    ```shell
-    uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    ```
+- **FastAPI**: A modern, fast (high-performance), web framework for building APIs with Python 3.6+.
+- **LLAMAPARSE**: For document parsing 
+- **Serper**: For Web-search
+- **Qdrant**: For Vector Database
+- **OpenAI**: As Ai model
+- **Structured-output**: For structuring openai response
+- **beautifulsoup4**: For scraping web content
+- **Roboflow**: For generating embedding for image
+- **Supabase**: Used for database hosting and authentication.
 
-6. Click Create Web Service.
+## Getting Started
 
-Or simply click:
+### Making the Environment
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/fastapi)
+To make a virtual environment, use the following command:
 
-## Thanks
+```bash
+python3 -m venv .venv
+```
 
-Thanks to [Harish](https://harishgarg.com) for the [inspiration to create a FastAPI quickstart for Render](https://twitter.com/harishkgarg/status/1435084018677010434) and for some sample code!
+Activate the virtual Environment:
+
+```bash
+source .venv/bin/activate
+```
+
+### Install the Requirements:
+
+Install The requirements with the following command:
+
+```bash
+pip install -r requirements.txt
+```
+
+It may lag. So better add a timeout
+
+```bash
+pip install -r requirements.txt --timeout=1000
+```
+
+### Running the Backend
+
+To run the backend server, use the following command:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+The app will start:
+
+```bash
+http://127.0.0.1:8000/
+```
+
+Once the application is running, you can access the API documentation provided by Swagger at:
+
+```bash
+http://127.0.0.1:8000/docs
+```
+
+Here, you can explore and interact with the various API endpoints.
+
+Changes will migrate automatically
+
+## Endpoints
+Endpoints are defined in api/api_v1/endpoints/
+
+## Helper functions
+Helper functions are defined in /helpers. Most **LLM Tasks** will be performed here
+
+## Environment File
+It will be provided **Privately**
+
+## Deployment
+
+The application is hosted in Render
+- [Deployment](https://insightai-python-backend.onrender.com).
+- [Deployment Docs](https://insightai-python-backend.onrender.com/docs).
