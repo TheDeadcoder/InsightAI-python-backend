@@ -2,10 +2,11 @@ from typing import List
 import uuid
 from fastapi import APIRouter, Depends, HTTPException
 from app.helpers.product_retrieve.multiple_product import retrieve_multiple_products_from_qdrant
-from app.schemas.product import ProductSchema, CategoryRequestSchema, CategoryResponseSchema, ProductRetrieveResponseSchema, ProductRetrieveMultipleRequestSchema, ProductRetrieveMultipleResponseSchema
+from app.schemas.product import ProductSchema, CategoryRequestSchema, CategoryResponseSchema, ProductRetrieveResponseSchema, ProductRetrieveMultipleRequestSchema, ProductRetrieveMultipleResponseSchema, ProductSimilarMultipleResponseSchema
 from app.helpers.product_retrieve.single_product import retrieve_single_product_from_qdrant, retrieve_similar_products
 from app.helpers.product_retrieve.category import get_products_by_category
 router = APIRouter()
+import random
 
 CATEGORY_MAPPING = {
     "men": {
@@ -109,4 +110,26 @@ async def get_multiple_products_by_ids(request: ProductRetrieveMultipleRequestSc
     
     return ProductRetrieveMultipleResponseSchema(
         products=[ProductSchema(**product) for product in products]
+    )
+
+@router.post("/retrieve-similar-multiple", response_model=ProductSimilarMultipleResponseSchema)
+async def get_similar_products_for_multiple_products(request: ProductRetrieveMultipleRequestSchema) -> ProductSimilarMultipleResponseSchema:
+    product_ids = request.product_ids
+    similar_products_set = set()  # To ensure no duplication
+
+    for product_id in product_ids:
+        similar_products = await retrieve_similar_products(product_id, limit=5)
+        for product in similar_products:
+            # Convert lists within the product dictionary to tuples so it can be hashed
+            product_tuple = tuple((key, tuple(value) if isinstance(value, list) else value) for key, value in product.items())
+            similar_products_set.add(product_tuple)  # Now it can be added to the set
+
+    # Convert back to list of dicts
+    unique_similar_products = [dict(product) for product in similar_products_set]
+    
+    # Shuffle the list of unique similar products
+    random.shuffle(unique_similar_products)
+    
+    return ProductSimilarMultipleResponseSchema(
+        products=[ProductSchema(**product) for product in unique_similar_products]
     )

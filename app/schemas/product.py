@@ -33,3 +33,6 @@ class ProductRetrieveMultipleRequestSchema(BaseModel):
 
 class ProductRetrieveMultipleResponseSchema(BaseModel):
     products: List[ProductSchema]
+
+class ProductSimilarMultipleResponseSchema(BaseModel):
+    products: List[ProductSchema]
