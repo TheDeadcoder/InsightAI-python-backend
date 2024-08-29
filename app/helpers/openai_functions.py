@@ -45,7 +45,7 @@ def create_chat_completion(query: str, conversation_history: str, knowledge_basi
     
     try:
         response = openaiClient.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-2024-08-06",
             messages=[
                 {
                     "role": "system", 
@@ -136,7 +136,7 @@ def clean_content(url:str, content:str):
     
     try:
         response = openaiClient.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-2024-08-06",
             messages=[
                 {
                     "role": "system", 

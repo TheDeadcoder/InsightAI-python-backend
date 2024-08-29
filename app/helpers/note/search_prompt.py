@@ -8,7 +8,7 @@ def Generate_prompt(text: str) -> str:
     '''
 
     completion = openaiClient.beta.chat.completions.parse(
-        model="gpt-4o",
+        model="gpt-4o-2024-08-06",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": text},

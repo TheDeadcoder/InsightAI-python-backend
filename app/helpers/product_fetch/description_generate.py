@@ -28,7 +28,7 @@ def generate_product_description(image_link:str, text_query:str):
     try:
         base64_image = download_image_as_base64(image_link)
         response = openaiClient.chat.completions.create(
-            model="gpt-4o",  
+            model="gpt-4o-2024-08-06",  
             messages=[
                 {
                     "role": "system", 

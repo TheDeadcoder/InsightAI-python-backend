@@ -22,7 +22,7 @@ def mcq_quesation_set_generate(topic_name: str, difficulty_level: str, number_of
     """
 
     completion = openaiClient.beta.chat.completions.parse(
-        model="gpt-4o",
+        model="gpt-4o-2024-08-06",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": human_prompt},

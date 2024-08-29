@@ -9,7 +9,7 @@ def generate_image_description(base64_image):
         
         
         response = openaiClient.chat.completions.create(
-            model="gpt-4o",  
+            model="gpt-4o-2024-08-06",  
             messages=[
                 {    
                     "role": "user",
