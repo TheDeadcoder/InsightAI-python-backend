@@ -28,3 +28,6 @@ class Note(BaseModel):
 class Note_Response(BaseModel):
     note: Note
     videos: List[YouTubeVideo]
+
+class search_prompt(BaseModel):
+    prompt: str

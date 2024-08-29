@@ -2,6 +2,7 @@
 from app.core.openai import openaiClient
 from app.helpers.youtube.youtube_video import search_youtube_videos
 from app.schemas.note import Note, Note_Response
+from .search_prompt import Generate_prompt
 
 def generate_note_helper(topic_name: str, knowledge_level: str, knowledge_base: str) -> Note_Response:
     system_prompt = f"""
@@ -33,7 +34,9 @@ def generate_note_helper(topic_name: str, knowledge_level: str, knowledge_base: 
         response_format=Note,
     )
     note_content = completion.choices[0].message.parsed
-    videos = search_youtube_videos(topic_name)
+    search_prompt = Generate_prompt(knowledge_base)
+    print(search_prompt)
+    videos = search_youtube_videos(search_prompt)
     note_response = Note_Response(note=note_content, videos=videos)
 
     return note_response
