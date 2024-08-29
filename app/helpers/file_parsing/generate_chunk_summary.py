@@ -11,7 +11,7 @@ def generate_summary(semantic_chunks):
         prompt += "\nPlease provide a brief summary about this content within 1 sentence."
 
         response = openaiClient.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}

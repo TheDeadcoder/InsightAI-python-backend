@@ -23,7 +23,7 @@ def project_planning(project_name: str, project_description: str, web_content: l
     """
 
     completion = openaiClient.beta.chat.completions.parse(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": human_prompt},

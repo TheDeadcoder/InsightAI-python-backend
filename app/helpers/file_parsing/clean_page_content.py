@@ -6,7 +6,7 @@ from app.core.openai import openaiClient
 def clean_page_content(page_content):
     try:
         response = openaiClient.chat.completions.create(
-            model="gpt-4o-mini",  
+            model="gpt-4o",  
             messages=[
                 {"role": "system", "content": "You are an AI assistant that cleans and improves text extracted from PDFs. Your task is to correct any OCR errors, improve formatting, and ensure the text is clear and readable. Add no additional token"},
                 {"role": "user", "content": f"Please clean and improve the following text extracted from a PDF:\n\n{page_content}"}

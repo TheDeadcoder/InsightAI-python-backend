@@ -25,7 +25,7 @@ def stepped_flashcard_set_generate(topic_name: str, difficulty_level: str, numbe
     """
 
     completion = openaiClient.beta.chat.completions.parse(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": human_prompt},

@@ -26,7 +26,7 @@ def generate_note_helper(topic_name: str, knowledge_level: str, knowledge_base: 
     """
 
     completion = openaiClient.beta.chat.completions.parse(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": human_prompt},

@@ -9,7 +9,7 @@ def standardize_prompt_for_RAG(conversation_history):
     
     try:
         response = openaiClient.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=[
                 {
                     "role": "system", 
