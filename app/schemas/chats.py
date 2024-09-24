@@ -15,7 +15,8 @@ TemplateCategory = Literal[
     "Creative Writer",
     "Code Assistant",
     "Translator",
-    "Interviewer"
+    "Interviewer",
+    "system_info"
 ]
 
 class ChatRequestOnCollection(BaseModel):
