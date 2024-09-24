@@ -111,6 +111,8 @@ def save_summary_locally(file_id: str, summaries: List[Dict], user_id: str, coll
 
 
 def process_pdf_and_generate_summaries(file_url: str, file_id: str, user_id: str, collection_name: str):
+    downloads_dir = "./downloads"
+    os.makedirs(downloads_dir, exist_ok=True)
     file_path = f"./downloads/{file_id}.pdf"
     try:
         response = requests.get(file_url)
@@ -146,5 +148,41 @@ def process_pdf_and_generate_summaries(file_url: str, file_id: str, user_id: str
         update_file_status(file_id, "Failed")
     finally:
         # Cleanup: Remove the downloaded file after processing
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+
+def process_txt_and_generate_summaries(file_url: str, file_id: str, user_id: str, collection_name: str):
+    downloads_dir = "./downloads"
+    os.makedirs(downloads_dir, exist_ok=True)
+    file_path = f"./downloads/{file_id}.txt"
+    try:
+        response = requests.get(file_url)
+        response.raise_for_status()
+        with open(file_path, 'wb') as file:
+            file.write(response.content)
+
+        with open(file_path, 'r') as file:
+            content = file.read()
+            summary = generate_summary(content)
+            summaries = [{
+                "page_number": 1,
+                "summary": summary,
+                "content": content
+            }]
+
+        full_collection_name = f"{user_id}_{collection_name}"
+        make_collection(user_id, collection_name)
+        for summary in summaries:
+            upload_to_qdrant(file_id, file_url, summary["page_number"], summary["content"], summary["summary"], full_collection_name)
+
+        update_file_status(file_id, "Completed")
+
+    except Exception as e:
+        print(f"Error while processing the TXT file: {str(e)}")
+        full_collection_name = f"{user_id}_{collection_name}"
+        delete_points_by_uuid(full_collection_name, file_id)
+        update_file_status(file_id, "Failed")
+    finally:
         if os.path.exists(file_path):
             os.remove(file_path)
