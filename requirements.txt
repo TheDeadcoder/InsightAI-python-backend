@@ -60,6 +60,7 @@ llama-index-readers-file==0.2.0
 llama-index-readers-llama-parse==0.2.0
 llama-parse==0.5.0
 markdown-it-py==3.0.0
+markdown2==2.5.0
 MarkupSafe==2.1.5
 marshmallow==3.22.0
 matplotlib==3.9.2
