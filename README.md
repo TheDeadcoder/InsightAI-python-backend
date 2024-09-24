@@ -84,5 +84,5 @@ It will be provided **Privately**
 ## Deployment
 
 The application is hosted in Render
-- [Deployment](https://insightai-python-backend.onrender.com).
-- [Deployment Docs](https://insightai-python-backend.onrender.com/docs).
+- [Deployment](https://insightai-6hp4.onrender.com).
+- [Deployment Docs](https://insightai-6hp4.onrender.com/docs).
