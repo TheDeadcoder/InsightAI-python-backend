@@ -81,6 +81,25 @@ Helper functions are defined in /helpers. Most **LLM Tasks** will be performed h
 ## Environment File
 It will be provided **Privately**
 
+## Workflow Diagram
+
+### Study Companion Module
+The Study Companion module consists of two main components:
+
+1. **Resource Management**
+![Study Companion - Resource Management](https://fgdanyiprenrzvmxnjxw.supabase.co/storage/v1/object/public/statics/stud_companion_1.png)
+
+2. **Productivity (Note Generation, Quiz & Flashcards)**
+![Study Companion - Productivity](https://fgdanyiprenrzvmxnjxw.supabase.co/storage/v1/object/public/statics/stud_companion_2.png)
+
+### Project Planner Module
+![Project Planner](https://fgdanyiprenrzvmxnjxw.supabase.co/storage/v1/object/public/statics/project_planner.png)
+
+### ShopGenie Module
+![ShopGenie](https://fgdanyiprenrzvmxnjxw.supabase.co/storage/v1/object/public/statics/genie.png)
+
+These diagrams provide a high-level overview of the system flow for each module in the InsightAI application. They illustrate the key components and interactions within each module, helping developers and stakeholders understand the overall architecture and data flow.
+
 ## Deployment
 
 The application is hosted in Render
