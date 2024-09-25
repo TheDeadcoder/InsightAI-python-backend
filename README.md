@@ -4,7 +4,7 @@
 
 ## Overview
 
-Welcome to the backend of **InsightAI**, an application designed to revolutionize your banking experience. This backend is built using FastAPI, providing a robust and efficient structure for our application.
+Welcome to the backend of **InsightAI**, an application designed to revolutionize your productivity. This backend is built using FastAPI, providing a robust and efficient structure for our application.
 
 ## Technologies Used
 
